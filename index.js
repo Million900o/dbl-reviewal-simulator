@@ -1,11 +1,12 @@
 const { Master } = require('discord-rose')
 const { config } = require('dotenv')
-const path = require('path')
+const { resolve } = require('path')
 
 config()
 
-const master = new Master(path.resolve(__dirname, 'worker/worker.js'), {
+const master = new Master(resolve(__dirname, 'worker/worker.js'), {
   token: process.env.TOKEN,
+  intents: 32767,
   cache: {
     channels: true,
     guilds: true,
@@ -14,10 +15,9 @@ const master = new Master(path.resolve(__dirname, 'worker/worker.js'), {
     roles: true,
     self: true,
     users: true
-  },
-  warnings: {
-    cachedIntents: false
-  },
+  }
 });
+
+master.spawnProcess('WEB', resolve(__dirname, 'api/index.js'))
 
 master.start();

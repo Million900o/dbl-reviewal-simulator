@@ -61,15 +61,52 @@ function getLang(type, ...args) {
   return formatString(lang[type], ...args)
 }
 
+const latinChar = {
+  a: 'а',// exact
+  b: 'Β',
+  c: 'с', // exact
+  d: 'ď',
+  e: 'è',
+
+  g: 'ģ',
+  h: 'Η',
+  i: 'і', // exact
+
+  k: 'к',
+  l: 'ľ',
+
+  n: 'ń',
+  o: 'ó',
+  p: 'p̃', 
+
+  r: 'ŕ',
+  s: 'ś',
+  t: 'ť',
+  u: 'ú',
+
+
+
+  y: 'ý',
+  z: 'ż',
+}
+
+function randomElement(arr) {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
 /**
  * 
  * @param {string} string  the string
  * @param  {...string} args 
  */
 function formatString(string, ...args) {
-  return string.replace(/{(\d+)}/g, function (match, number) {
-    return typeof args[number] != 'undefined' ? args[number] : match
-  });
+  return string
+    .replace(/{(\d+)}/g, function (match, number) {
+      return typeof args[number] != 'undefined' ? args[number] : match
+    })
+    .split('')
+    .map(e => latinChar[e] ?? e)
+    .join('')
 }
 
 /**
